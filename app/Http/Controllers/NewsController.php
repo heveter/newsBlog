@@ -2,71 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\NewsResources;
+use App\Models\Media;
 use App\Models\News;
-use Illuminate\Http\Request;
-use App\Http\Requests;
+use Illuminate\Http\Response;
 use Session;
+use App\Http\Requests\NewsStoreRequest;
 
 class NewsController extends Controller
 {
 
     public function index()
     {
-        // using paginate function to show 3 news items per page
         $itemsPerPage = 6;
-        $news = News::orderBy('created_at', 'desc')->paginate($itemsPerPage);
-
-        return ('news.index', array('news' => $news, 'title' => 'News Display'));
+        return NewsResources::collection(News::orderBy('created_at', 'desc')->paginate($itemsPerPage));
     }
 
-    public function create()
+    public function store(NewsStoreRequest $request)
     {
-        return view('news.create', array('title' => 'Add News'));
+        return News::create($request->validated());
     }
 
-    public function store(Request $request)
+    public function show(News $news)
     {
-        $this->validate($request, array(
-                'title' => 'required',
-                'slug' => 'required',
-                'short_description' => 'required',
-                'full_content' => 'required',
-            )
-        );
-
-        $input = $request->all();
-        //dd($input); // dd() helper function is print_r alternative
-
-        News::create($input);
-
-        Session::flash('flash_message', 'News added successfully!');
-
-        //return redirect()->back();
-        //return redirect('news');
-        return redirect()->route('news.index');
+        return new NewsResources($news);
     }
 
-    public function show($slug)
+    public function update(NewsStoreRequest $request, News $news)
     {
-        $news = News::where('slug', $slug)->first();
-        return view('news.show', array('news' => $news));
+        $news->update($request->validated());
+        return $news;
     }
 
-    public function edit($id)
+    public function destroy(News $news)
     {
-        $news = News::findOrFail($id);
-
-        return view('news.edit', array('news' => $news, 'title' => 'Edit News'));
-    }
-
-    public function destroy($id)
-    {
-        $news = News::findOrFail($id);
-
         $news->delete();
-
-        Session::flash('flash_message', 'News deleted successfully!');
-
-        return redirect()->route('news.index');
+        return response(null,Response::HTTP_NO_CONTENT);
     }
 }
