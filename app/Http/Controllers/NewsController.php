@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\NewsResources;
-use App\Models\Media;
 use App\Models\News;
 use Illuminate\Http\Response;
-use Session;
 use App\Http\Requests\NewsStoreRequest;
 
 class NewsController extends Controller
