@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Business_offerController;
 use App\Http\Controllers\NewsController;
 
 /*
@@ -21,4 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResources([
     'news' => NewsController::class,
+]);
+
+Route::apiResources([
+    'business_offer' => Business_offerController::class,
 ]);

@@ -4,33 +4,35 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class News extends Model
+class Business_offer extends Model
 {
     use HasFactory;
 
-    use SoftDeletes;
 
-    protected $table = 'news';
+    protected $table = 'business_offer';
 
     public $primaryKey = 'id';
 
     public $timestamps = true;
 
+    public function category()
+    {
+        return $this->hasOne(Business_offer_categories::class, 'id', 'business_offer_categories_id');
+    }
+
     protected $fillable = [
-        'title',
-        'type',
+        'name',
         'short_description',
-        'full_content',
-        'date',
-        'is_visible',
         'images',
+        'business_offer_categories_id'
     ];
+
 
     protected $guarded = array();
 
-    public $casts=[
+    public $casts = [
         'images' => 'array'
     ];
+
 }
