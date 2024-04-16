@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Business_offerResources extends JsonResource
+class PropertyResources extends JsonResource
 {
     /**
      * @param \Illuminate\Http\Request $request
@@ -15,7 +15,7 @@ class Business_offerResources extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'category' => $this->business_offer_categories_id,
+            'category' => $this->property_categories_id != null ? $this->category->name : null,
             'short_description' => $this->short_description,
             'images' => $this->images,
         ];

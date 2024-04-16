@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Business_offerController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\PropertyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,8 +23,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::apiResources([
     'news' => NewsController::class,
+    'business_offer' => Business_offerController::class,
+    'property' => PropertyController::class,
 ]);
 
-Route::apiResources([
-    'business_offer' => Business_offerController::class,
-]);
