@@ -24,6 +24,7 @@ class Property extends Model
     protected $fillable = [
         'name',
         'short_description',
+        'type',
         'images',
         'property_categories_id'
     ];

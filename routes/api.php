@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Business_offerController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PropertyController;
+use App\Http\Controllers\MediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,5 +26,6 @@ Route::apiResources([
     'news' => NewsController::class,
     'business_offer' => Business_offerController::class,
     'property' => PropertyController::class,
+    'media' => MediaController::class,
 ]);
 

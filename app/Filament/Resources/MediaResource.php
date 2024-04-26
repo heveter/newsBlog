@@ -2,48 +2,46 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PropertyResource\Pages;
-use App\Filament\Resources\PropertyResource\RelationManagers;
-use App\Models\Property;
+use App\Filament\Resources\MediaResource\Pages;
+use App\Models\Media;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use App\Models\Property_categories;
 
-class PropertyResource extends Resource
+class MediaResource extends Resource
 {
-    protected static ?string $model = Property::class;
+    protected static ?string $model = Media::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-building-office-2';
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('name')
+                Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Select::make('property_categories_id')
-                    ->label('Categories')
-                    ->options(Property_categories::all()->pluck('name', 'id'))
-                    ->searchable(),
                 Forms\Components\Select::make('type')
                     ->label('Type')
                     ->options([
-                        '0' => 'Обе',
-                        '1' => 'Аренда',
-                        '2' => 'Продажа'
+                        '1' => 'Фоторепортажи',
+                        '2' => 'Видеорепортажи'
                     ])
                     ->searchable(),
+                Forms\Components\DatePicker::make('date')
+                    ->required(),
                 Forms\Components\Textarea::make('short_description')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\FileUpload::make('images')
+                Forms\Components\Textarea::make('full_content')
+                    ->required()
+                    ->columnSpanFull(),
+                Forms\Components\FileUpload::make('source')
+                    ->acceptedFileTypes(['video/mp4', 'video/avi', 'video/mov', 'video/wmv', 'video/flv', 'video/mkv', 'video/webm', 'image/gif', 'image/jpeg',
+                        'image/pjpeg', 'image/png', 'image/svg+xml', 'image/tiff', 'image/vnd.microsoft.icon', 'image/vnd.wap.wbmp', 'image/webp: WebP'])
                     ->multiple()
-                    ->imageEditor()
-                    ->image(),
             ]);
     }
 
@@ -51,29 +49,22 @@ class PropertyResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('category.name'),
                 Tables\Columns\SelectColumn::make('type')
-                    ->selectablePlaceholder(false)
                     ->options([
-                        '0' => 'Обе',
-                        '1' => 'Аренда',
-                        '2' => 'Продажа'
+                        '1' => 'Фоторепортажи',
+                        '2' => 'Видеорепортажи'
                     ]),
+                Tables\Columns\TextColumn::make('date')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('short_description')
                     ->limit(30)
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('images')
-                    ->square()
-                    ->stacked()
-                    ->limit(3)
-                    ->limitedRemainingText(),
+                Tables\Columns\TextColumn::make('full_content')
+                    ->limit(30)
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -98,9 +89,9 @@ class PropertyResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListProperties::route('/'),
-            'create' => Pages\CreateProperty::route('/create'),
-            'edit' => Pages\EditProperty::route('/{record}/edit'),
+            'index' => Pages\ListMedia::route('/'),
+            'create' => Pages\CreateMedia::route('/create'),
+            'edit' => Pages\EditMedia::route('/{record}/edit'),
         ];
     }
 }

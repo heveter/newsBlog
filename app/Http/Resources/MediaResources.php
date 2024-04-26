@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PropertyResources extends JsonResource
+class MediaResources extends JsonResource
 {
     /**
      * @param \Illuminate\Http\Request $request
@@ -14,11 +14,12 @@ class PropertyResources extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'category' => $this->property_categories_id ?? null,
-            'short_description' => $this->short_description,
             'type' => $this->type,
-            'images' => $this->images,
+            'title' => $this->title,
+            'short_description' => $this->short_description,
+            'full_content' => $this->full_content,
+            'date' => $this->date,
+            'source' => $this->source,
         ];
     }
 }
