@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\Business_offerResources;
+use App\Http\Resources\PropertyResources;
 use App\Models\Business_offer;
 use Illuminate\Http\Response;
 use App\Http\Requests\Business_offerStoreRequest;
@@ -20,9 +21,9 @@ class Business_offerController extends Controller
         return Business_offer::create($request->validated());
     }
 
-    public function show(Business_offer $offer)
+    public function show(int $id)
     {
-        return new Business_offerResources($offer);
+        return new PropertyResources(Business_offer::findOrFail($id));
     }
 
     public function update(Business_offerStoreRequest $request, Business_offer $offer)

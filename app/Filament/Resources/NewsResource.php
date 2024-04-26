@@ -42,7 +42,7 @@ class NewsResource extends Resource
                         'redo',
                         'strike',
                         'underline',
-                        'undo',
+                        'undo'
                     ])
                     ->columnSpanFull(),
                 Forms\Components\DatePicker::make('date')
